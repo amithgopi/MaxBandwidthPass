@@ -28,7 +28,7 @@ void initParam(Graph &graph, bool useHeap) {
     for(int i=0; i<numNodes; i++) {
         status[i] = UNSEEN;
         parent[i] = -1;
-        bw[i] = 0;  //TODO Verify this??
+        bw[i] = INT32_MIN;  //TODO Verify this??
     }
     //Initialize Heap
     if(useHeap) heap = new MaxHeap(&graph, bw);
@@ -115,7 +115,7 @@ int* dijkstra(Graph &G, int s, int t, bool useHeap = false) {
         // Node* next = currNode->next;
         status[currNode->id] = FRINGE;
         parent[currNode->id] = s;
-        bw[currNode->id] = currNode->weight;
+        if(bw[currNode->id] < 0) bw[currNode->id] = currNode->weight;
         //Insert to heap if useHeap set
         if(useHeap)  heap->insert(currNode->id);
         //Iterate to next edge/vertex

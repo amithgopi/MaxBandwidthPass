@@ -3,6 +3,7 @@
 #include "graph.h"
 #include "dijkstra.h"
 #include "heap.h"
+#include "kruskal.h"
 // #include "graph.h"
 
 using namespace std;
@@ -11,16 +12,16 @@ using namespace std;
 int main() {
     cout<<"Hello world\n\n";
 
-     Graph g(5000, 6, 5000);
-     g.getAverageEdgeCount();
-    // Graph g("g.txt");
+    //  Graph g(10, 10, 100);
+    //  g.getAverageEdgeCount();
+    Graph g("g.txt");
 
-    // g.printGraph();
+    g.printGraph();
     // g.dumpToFile();
     // g.parseFile();
 
-    int s = g.getRandomNode(), t = g.getRandomNode();
-    // int s = 17, t = 2;
+    // int s = g.getRandomNode(), t = g.getRandomNode();
+    int s = 4, t = 0;
     cout<<"Shortest path from s - "<<s<<" to t - "<<t<<"\n";
     int* p;
     int i;
@@ -42,6 +43,10 @@ int main() {
     elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
     cout<<"Time taken: "<<elapsed.count()<<endl;
     // printPath(p, t, g.num_nodes);
+
+    cout<<"\n\n";
+    kruskal(g,s, t);
+    
     
     return 0;
 
