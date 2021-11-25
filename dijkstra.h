@@ -115,7 +115,8 @@ int* dijkstra(Graph &G, int s, int t, bool useHeap = false) {
         // Node* next = currNode->next;
         status[currNode->id] = FRINGE;
         parent[currNode->id] = s;
-        if(bw[currNode->id] < 0) bw[currNode->id] = currNode->weight;
+        //Update bw only if current BW is lower than new one, helps with cases where there are more than one edge to a node
+        if(bw[currNode->id] < currNode->weight) bw[currNode->id] = currNode->weight;
         //Insert to heap if useHeap set
         if(useHeap)  heap->insert(currNode->id);
         //Iterate to next edge/vertex
@@ -158,6 +159,9 @@ int* dijkstra(Graph &G, int s, int t, bool useHeap = false) {
     
     if(status[t] != IN_TREE) {
         cout<<"No path from "<<s<<" to "<<t<<" in graph";
+        return nullptr;
+    } else if(s == t) {
+        cout<<"Start and end are the same - "<<s<<", BW is INFINITE"<<endl;
         return nullptr;
     } else {
         cout<<"Max BW of pass = "<<bw[t]<<endl;

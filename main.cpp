@@ -12,16 +12,16 @@ using namespace std;
 int main() {
     cout<<"Hello world\n\n";
 
-    //  Graph g(10, 10, 100);
+     Graph g(10, 6, 100);
     //  g.getAverageEdgeCount();
-    Graph g("g.txt");
+    // Graph g("g.txt");
 
     g.printGraph();
-    // g.dumpToFile();
+    g.dumpToFile();
     // g.parseFile();
 
-    // int s = g.getRandomNode(), t = g.getRandomNode();
-    int s = 4, t = 0;
+    int s = g.getRandomNode(), t = g.getRandomNode();
+    // int s = 4, t = 0;
     cout<<"Shortest path from s - "<<s<<" to t - "<<t<<"\n";
     int* p;
     int i;

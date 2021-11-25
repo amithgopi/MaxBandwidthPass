@@ -121,7 +121,7 @@ int* kruskal(Graph &G, int s, int t) {
             unionSet(r1, r2);
         }
     }
-    MST->printGraph();
+    //MST->printGraph();
     maxBw = INT32_MAX;
     Color color[vertexCount];
     fill_n(color, vertexCount, WHITE);
@@ -129,6 +129,9 @@ int* kruskal(Graph &G, int s, int t) {
 
     if(color[t] == WHITE) {
         cout<<"No s to t path found"<<endl;
+        return nullptr;
+    } else if(s == t) {
+        cout<<"Start and end are the same - "<<s<<", BW is INFINITE"<<endl;
         return nullptr;
     } else {
         cout<<"Max BW of pass = "<<maxBw<<endl;
