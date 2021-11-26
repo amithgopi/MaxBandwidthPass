@@ -1,4 +1,4 @@
-#include "edge_heap.h"
+#include "min_heap.h"
 #include <iostream>
 
 
@@ -15,7 +15,7 @@ int edgeCount;
 int* queue;
 int currentQueueSize;
 
-EdgeHeap* edgeHeap;
+MinHeap* edgeHeap;
 
 Graph* MST;
 int maxBw;
@@ -26,7 +26,7 @@ void init(Graph &G) {
     parentOfSet = new int[vertexCount];
     parentInPass = new int[vertexCount];
     height = new int[vertexCount];
-    edgeHeap = new EdgeHeap(G);
+    edgeHeap = new MinHeap(G);
 
     queue = new int[vertexCount];
     currentQueueSize = 0;
@@ -110,7 +110,7 @@ int* kruskal(Graph &G, int s, int t) {
     int r1, r2;
     Node* edge;
     edgeHeap->heapSort();
-    for(int i=edgeCount-1; i>=0; i--) {
+    for(int i=0; i<edgeCount; i++) {
         edge = edgeHeap->arr[i];
         r1 = find(edge->parentId);
         r2 = find(edge->id);

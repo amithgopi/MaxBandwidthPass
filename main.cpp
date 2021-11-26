@@ -2,7 +2,6 @@
 #include <chrono>
 #include "graph.h"
 #include "dijkstra.h"
-#include "heap.h"
 #include "kruskal.h"
 // #include "graph.h"
 
@@ -12,12 +11,12 @@ using namespace std;
 int main() {
     cout<<"Hello world\n\n";
 
-     Graph g(10, 6, 100);
+     Graph g(10, 6, 10000);
     //  g.getAverageEdgeCount();
     // Graph g("g.txt");
 
-    g.printGraph();
-    g.dumpToFile();
+    // g.printGraph();
+    // g.dumpToFile();
     // g.parseFile();
 
     int s = g.getRandomNode(), t = g.getRandomNode();

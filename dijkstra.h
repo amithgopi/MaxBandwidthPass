@@ -1,5 +1,5 @@
 #include "graph.h"
-#include "heap.h"
+#include "max_heap.h"
 #include <iostream>
 
 using namespace std;
