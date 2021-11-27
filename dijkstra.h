@@ -12,6 +12,7 @@ int* parent;        //Parent array to trace the path back to start
 int numNodes;       //No of veritces in the given graph
 MaxHeap* heap;      //Points to an instance of Max heap to store fringes
 
+int dijkMaxBw;
 /**
  * @brief Initializes parameters for the algorithm for the given graph and allocates
  * the required memory for arrays based on these parameters.
@@ -70,7 +71,7 @@ void printPath(int x) {
         return;
     }
     printPath(parent[x]);
-    cout<<x<<" -> ";
+    cout<<x<<"("<<bw[x]<<") -> ";
 }
 
 /**
@@ -80,7 +81,7 @@ void printPath(int x) {
  * @return int fringe with largest BW
  */
 int findLargetFringe() {
-    int largestBW = INT16_MIN, largestFringe = -1;
+    int largestBW = INT32_MIN, largestFringe = -1;
     for(int i=0; i<numNodes; i++) {
         if(status[i] == FRINGE) {
             if(bw[i] > largestBW) {
@@ -132,6 +133,7 @@ int* dijkstra(Graph &G, int s, int t, bool useHeap = false) {
 
         //Look at each edge of the fringe and grow the tree
         currNode = G.list[fringeVertex]->next;
+
         while(currNode != nullptr) {
             int currentVertexId = currNode->id;
             //Calculate new BW for the current edge if we connect it to the current fringe
@@ -164,12 +166,17 @@ int* dijkstra(Graph &G, int s, int t, bool useHeap = false) {
         cout<<"Start and end are the same - "<<s<<", BW is INFINITE"<<endl;
         return nullptr;
     } else {
+        dijkMaxBw = bw[t];
         cout<<"Max BW of pass = "<<bw[t]<<endl;
         printPath(t);
         cout<<endl;
         return parent;
     }
 
+}
+
+int getMaxBWDijkstra() {
+    return dijkMaxBw;
 }
 
 

@@ -12,7 +12,7 @@ using namespace std;
 
 class MaxHeap: public Heap<int> {
 
-    int *position;
+    int* position;
     int* bw;
 
     public:
@@ -107,7 +107,9 @@ class MaxHeap: public Heap<int> {
             arr[i] = arr[size]; 
             arr[size] = -1;
             
-            heapify(i);
+            for (int i=(size/2)-1; i>=0; i--) {
+                heapify(i);
+            }
         }
 
         void deleteNode(int node) {

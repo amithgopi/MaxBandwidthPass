@@ -9,42 +9,47 @@ using namespace std;
 
 
 int main() {
-    cout<<"Hello world\n\n";
 
-     Graph g(10, 6, 10000);
+     Graph g(5000, 6, 10000);
     //  g.getAverageEdgeCount();
     // Graph g("g.txt");
 
     // g.printGraph();
     // g.dumpToFile();
-    // g.parseFile();
+
 
     int s = g.getRandomNode(), t = g.getRandomNode();
-    // int s = 4, t = 0;
+    // int s = 29, t = 78;
     cout<<"Shortest path from s - "<<s<<" to t - "<<t<<"\n";
     int* p;
     int i;
+    int maxBW[3];
 
     auto begin = std::chrono::high_resolution_clock::now();
     p = dijkstra(g, s, t);
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
     cout<<"Time taken: "<<elapsed.count()<<endl;
-    // printPath(p, t, g.num_nodes);
-    // cout<<"\n\n";
-    // cleanUpPathParams();
-    // p = dijkstraWithHeap(g, s, t);
-   
+    maxBW[0] = getMaxBWDijkstra();
     cleanUpPathParams();
+
     begin = std::chrono::high_resolution_clock::now();
     p = dijkstra(g, s, t, true);
     end = std::chrono::high_resolution_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
     cout<<"Time taken: "<<elapsed.count()<<endl;
+    maxBW[1] = getMaxBWDijkstra();
+    cleanUpPathParams();
     // printPath(p, t, g.num_nodes);
 
-    cout<<"\n\n";
+    cout<<"\n";
     kruskal(g,s, t);
+    maxBW[2] = getMaxBWKruskal();
+
+    if(!(maxBW[0] == maxBW[1] && maxBW[1] == maxBW[2])) {
+        g.dumpToFile();
+        cout<<"\nMax BWs does not match.."<<endl;
+    }
     
     
     return 0;

@@ -101,7 +101,7 @@ void printPathK(int x) {
     if(x == -1) {
         return;
     }
-    printPath(parentInPass[x]);
+    printPathK(parentInPass[x]);
     cout<<x<<" -> ";
 }
 
@@ -139,5 +139,9 @@ int* kruskal(Graph &G, int s, int t) {
         return parentInPass;
     }
 
+}
+
+int getMaxBWKruskal() {
+    return maxBw;
 }
 
