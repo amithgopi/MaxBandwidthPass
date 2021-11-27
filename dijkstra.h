@@ -172,12 +172,13 @@ using namespace std;
             return nullptr;
         } else if(s == t) {
             cout<<"Start and end are the same - "<<s<<", BW is INFINITE"<<endl;
+            maxBw = INT32_MAX;
             return nullptr;
         } else {
             maxBw = bw[t];
             cout<<"Max BW of pass = "<<bw[t]<<endl;
-            printPath(t);
-            cout<<endl;
+            // printPath(t);
+            // cout<<endl;
             return parent;
         }
 

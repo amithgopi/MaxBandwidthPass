@@ -107,11 +107,11 @@ class Kruskal {
         return false;
     }
 
-    void printPathK(int x) {
+    void printPath(int x) {
         if(x == -1) {
             return;
         }
-        printPathK(parent[x]);
+        printPath(parent[x]);
         cout<<x<<" -> ";
     }
 
@@ -142,10 +142,11 @@ class Kruskal {
             return nullptr;
         } else if(s == t) {
             cout<<"Start and end are the same - "<<s<<", BW is INFINITE"<<endl;
+            maxBw = INT32_MAX;
             return nullptr;
         } else {
             cout<<"Max BW of pass = "<<maxBw<<endl;
-            printPathK(t);
+            // printPath(t);
             return parent;
         }
 
