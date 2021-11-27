@@ -29,7 +29,7 @@ int main() {
 void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath = false) {
     int maxBW[3];
     for(int i=0; i<timesToExecute; i++) {
-        cout<<"\nIteration "<<i<<endl;
+        cout<<"\nIteration "<<i+1<<endl;
         Dijkstra* d;
         int s = g.getRandomNode(), t = g.getRandomNode();
         file<<i+1<<CSV_FILE_SEPERATOR<<s<<CSV_FILE_SEPERATOR<<t<<CSV_FILE_SEPERATOR;
