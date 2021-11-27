@@ -6,9 +6,6 @@
 #include "heap.h"
 using namespace std;
 
-#define parent(i) (i-1)>>1
-#define left(i) ((i<<1) + 1)
-#define right(i) ((i<<1) + 2)
 
 class MaxHeap: public Heap<int> {
 
