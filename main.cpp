@@ -10,6 +10,7 @@
 #define SPARSE_EDGES_PER_NODE 6
 #define DENSE_EDGES_PER_NODE 1000
 #define MAX_POSSIBLE_BW_VALUE 10000
+#define ITERATIONS_PER_GRAPH 5
 
 using namespace std;
 
@@ -76,6 +77,7 @@ int main() {
 void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath = false) {
     int maxBW[3];
     for(int i=0; i<timesToExecute; i++) {
+        cout<<"\nIteration "<<i<<endl;
         Dijkstra* d;
         int s = g.getRandomNode(), t = g.getRandomNode();
         file<<i+1<<CSV_FILE_SEPERATOR<<s<<CSV_FILE_SEPERATOR<<t<<CSV_FILE_SEPERATOR;
@@ -127,20 +129,22 @@ void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath 
 }
 
 void sparseGraph() {
+    cout<<"\n----STARTING RUN ON SPARSE GRAPH----"<<endl;
     ofstream file;
     file.open("sparse.csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, SPARSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
-    runAlgorithms(g, file, 5);  
+    runAlgorithms(g, file, ITERATIONS_PER_GRAPH);  
     file.close();
 }
 
 void denseGraph() {
+    cout<<"----STARTING RUN ON DENSE GRAPH----"<<endl;
     ofstream file;
     file.open("dense.csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, DENSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
-    runAlgorithms(g, file, 5);
+    runAlgorithms(g, file, ITERATIONS_PER_GRAPH);
     file.close();  
 }
 
