@@ -69,9 +69,9 @@ class MaxHeap: public Heap<int> {
                 cout<<"Cannot insert new element. Capacity full.\n";
                 return;
             }
-            //For existing nodes, add it to same position and heapify
+            //For existing nodes, add it to same position and fix heap at that posistion
             if(position[node] != -1){
-                heapify(position[node]);
+                fixHeap(position[node]);
                 return;
             }
 
@@ -79,7 +79,11 @@ class MaxHeap: public Heap<int> {
             position[node] = size;
             size++;
 
-            int pos = size - 1;
+            heapifyUp(size - 1);
+
+        }
+
+        void heapifyUp(int pos) {
             while (pos != 0 && bw[arr[parent(pos)]] < bw[arr[pos]]) //Use BW array for comparison
             {
                 swap(&position[arr[pos]], &position[arr[parent(pos)]]);
@@ -89,24 +93,29 @@ class MaxHeap: public Heap<int> {
             }
         }
 
+        void fixHeap(int pos) {
+            if(pos == 0 || bw[arr[parent(pos)]] > bw[arr[pos]]) {
+                heapify(pos);
+            } else {
+                heapifyUp(pos);
+            }
+        }
+
         void remove(int i) {
-            // printHeap(0);
             if(i>size-1 || size == 0) {
                 cout<<"Cannot delete. i = "<<i<<" node = "<<position[arr[i]]<<", size = "<<size<<endl;
                 return;
             }
-
-            size--;
+            size--; //Reduce size of heap
             
-            position[arr[i]] = -1;  
+            position[arr[i]] = -1;  //Set posistion of element to be removed as -1
             if(i != size) position[arr[size]] = i;  //handle edge case when node to delete is the last node
 
-            arr[i] = arr[size]; 
-            arr[size] = -1;
+            arr[i] = arr[size]; //Replace element with right most leaf (last in heap array) 
+            arr[size] = -1;     //Change last replaecd elemetn (not at the end of the array) to -1
+
+            fixHeap(i);         //Fix the heap at the deleted location
             
-            for (int i=(size/2)-1; i>=0; i--) {
-                heapify(i);
-            }
         }
 
         void deleteNode(int node) {

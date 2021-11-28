@@ -177,8 +177,6 @@ using namespace std;
         } else {
             maxBw = bw[t];
             cout<<"Max BW of pass = "<<bw[t]<<endl;
-            // printPath(t);
-            // cout<<endl;
             return parent;
         }
 

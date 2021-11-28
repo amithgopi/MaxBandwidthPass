@@ -16,11 +16,14 @@ using namespace std;
 
 void sparseGraph();
 void denseGraph();
+void testFromFile();
 
 int main() {
-
+    
     sparseGraph();
     denseGraph();
+
+    // testFromFile();
     
     return 0;
 
@@ -29,9 +32,10 @@ int main() {
 void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath = false) {
     int maxBW[3];
     for(int i=0; i<timesToExecute; i++) {
-        cout<<"\nIteration "<<i+1<<endl;
+        
         Dijkstra* d;
         int s = g.getRandomNode(), t = g.getRandomNode();
+        cout<<"\nIteration "<<i+1<<" from "<<s<<" to "<<t<<endl;
         file<<i+1<<CSV_FILE_SEPERATOR<<s<<CSV_FILE_SEPERATOR<<t<<CSV_FILE_SEPERATOR;
 
         //Normal Dijkstra's algorithm
@@ -73,6 +77,7 @@ void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath 
         if(maxBW[0] == maxBW[1] && maxBW[1] == maxBW[2]) {
             file<<maxBW[0]<<CSV_FILE_SEPERATOR<<"\n";
         } else {
+            g.dumpToFile();
             cout<<"\nMax BWs are not the same.\n";
             exit(1);
         }
@@ -95,9 +100,24 @@ void denseGraph() {
     ofstream file;
     file.open("dense.csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, DENSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
+    cout<<"Avg edge count = "<<g.getAverageEdgeCount()<<endl;
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
     runAlgorithms(g, file, ITERATIONS_PER_GRAPH);
     file.close();  
+}
+
+void testFromFile() {
+    Graph g("g.txt");
+    Dijkstra* d = new Dijkstra();
+    int s = 4, t = 96;
+    d->dijkstra(g, s, t);
+    d->printPath(t); cout<<endl;
+    delete d;
+
+    d = new Dijkstra();
+    d->dijkstra(g, s, t, true);
+    d->printPath(t); cout<<endl;
+    delete d;
 }
 
 

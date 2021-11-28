@@ -3,7 +3,7 @@
 To run the code compile and execute the main method in main.cpp. This would run the program with the defined parameters in the file (main.cpp).
 
 To compile from inside the project directory run:
-    g++ ./main.cpp
+    g++ ./main.cpp -o main
     
 To execute the program, from the same directory, run:
     ./main
