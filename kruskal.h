@@ -1,20 +1,23 @@
 #include "min_heap.h"
 #include <iostream>
-
+#include <chrono>
 
 using namespace std;
 
 
-
+/**
+ * @brief Class to hold an instance of kruskal run gor a given graph
+ * 
+ */
 class Kruskal {
     public:
 
     //Enum to color nodes during DFS
     enum Color {WHITE, GREY, BLACK};
 
-    int* parentOfSet;
-    int* parent;
-    int* height;
+    int* parentOfSet;   //Used for find set
+    int* parent;        //Used to trace shortest path on DFS
+    int* height;        //Stores rank or heaight for union find
     int vertexCount;
     int edgeCount;
 
@@ -24,9 +27,15 @@ class Kruskal {
 
     MinHeap* edgeHeap;
 
+    //New graph to store the maximum spanning tree
     Graph* MST;
     int maxBw;
 
+    /**
+     * @brief Initialize members based on the given graph
+     * 
+     * @param G 
+     */
     void init(Graph &G) {
         vertexCount = G.num_nodes;
         edgeCount = G.total_edge_count;
@@ -40,6 +49,7 @@ class Kruskal {
 
         MST = new Graph(vertexCount);
 
+        //Set initial vales for the arrays - makeset
         for(int i=0; i<vertexCount; i++) {
             parentOfSet[i] = -1;
             height[i] = 0;
@@ -51,6 +61,10 @@ class Kruskal {
         cleanUp();
     }
 
+    /**
+     * @brief Clean up and deallocate momory
+     * 
+     */
     void cleanUp() {
         delete MST;
         delete edgeHeap;
@@ -59,6 +73,12 @@ class Kruskal {
         delete[] height;
     }
 
+    /**
+     * @brief Implements the union find operation
+     * 
+     * @param v 
+     * @param w 
+     */
     void unionSet(int v, int w) {
         if(height[v] > height[w]) parentOfSet[w] = v;
         else if(height[v] < height[w]) parentOfSet[v] = w;
@@ -68,6 +88,12 @@ class Kruskal {
         }
     }
 
+    /**
+     * @brief Implemetns find operation on the set with path compression
+     * 
+     * @param v id of node whose root is to be found
+     * @return int root of the tree to which the given node belongs to
+     */
     int find(int v) {
         int w = v;
         currentQueueSize = 0;
@@ -84,6 +110,17 @@ class Kruskal {
         return w;
     }
 
+    /**
+     * @brief Modified DFS to get shortest path from the MST. This stops when vertex t is encounteres
+     * This also creates the parent array and computes the BW of the s to t path
+     * 
+     * @param G Graph input to run DFS on
+     * @param r root node
+     * @param t end node
+     * @param color color array to indicate the status of a vertex
+     * @return true if t was found in the current vertex or its decendants
+     * @return false if t was not found
+     */
     bool DFS(Graph *G, int r, int t, Color* color) {
         color[r] = GREY;
         Node* current = G->list[r]->next;
@@ -107,6 +144,11 @@ class Kruskal {
         return false;
     }
 
+    /**
+     * @brief Print path from s to t recursively by tracing parent array from t
+     * 
+     * @param x 
+     */
     void printPath(int x) {
         if(x == -1) {
             return;
@@ -115,11 +157,23 @@ class Kruskal {
         cout<<x<<" -> ";
     }
 
+    /**
+     * @brief Kruskal algorithm implementation
+     * 
+     * @param G Graph on which to run Kruskal
+     * @param s start node id
+     * @param t end node id
+     * @return int* pointer to parent array
+     */
     int* kruskal(Graph &G, int s, int t) {
         init(G);
         int r1, r2;
         Node* edge;
+        auto begin = std::chrono::high_resolution_clock::now();
         edgeHeap->heapSort();
+        auto end = std::chrono::high_resolution_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - begin);
+        cout<<"Sort - Time taken: "<<elapsed.count()<<endl;
         for(int i=0; i<edgeCount; i++) {
             edge = edgeHeap->arr[i];
             r1 = find(edge->parentId);
@@ -152,6 +206,11 @@ class Kruskal {
 
     }
 
+    /**
+     * @brief Get the Max B W object
+     * 
+     * @return int returns max BW of the pass after kruskal
+     */
     int getMaxBW() {
         return maxBw;
     }

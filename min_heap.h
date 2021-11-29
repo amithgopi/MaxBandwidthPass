@@ -10,10 +10,18 @@ using namespace std;
 #define left(i) ((i<<1) + 1)
 #define right(i) ((i<<1) + 2)
 
-
+/**
+ * @brief Implements min heap as the derived class on Heap of type Node*
+ * 
+ */
 class MinHeap: public Heap<Node*>{
     public:
-
+        /**
+         * @brief Construct a new Min Heap object and initialize its paremters.
+         * This also fills the heap with edges from the given graph and builds it. 
+         * 
+         * @param G 
+         */
         MinHeap(Graph &G): Heap(G) {
             capacity = graph->total_edge_count + 1;
             arr = new Node*[capacity];
@@ -26,6 +34,10 @@ class MinHeap: public Heap<Node*>{
             delete[] arr;
         }
 
+        /**
+         * @brief Fill heap with edges from the graph
+         * 
+         */
         void fillHeap() {
             int numNodes = graph->num_nodes;
             for(int i=0; i<numNodes; i++) {
@@ -38,6 +50,11 @@ class MinHeap: public Heap<Node*>{
             }
         }
 
+        /**
+         * @brief Min heapify operation to heapify down the array
+         * 
+         * @param i position of element from which to start the heapify operation
+         */
         void heapify(int i) {
             int l = left(i), r = right(i);
             int smallest = i;

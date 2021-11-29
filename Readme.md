@@ -14,3 +14,6 @@ The code produces, two .csv files - sparse.csv and dense.csv - as the output. Th
 | run | start | end | time_dijkstra | time_dijkstra_heap | time_kruskal | max_bandwidth |
 |--|--|--|--|--|--|--|
 All the time entries are reported in microseconds.
+
+The Graph::dumpToFile() method can be used to write the current graph in to a file "g.txt".
+The rapidcsv.h libray is used to aid in debugging the code when it fails. This helps to parse the csv file dump generated from the program and create an idential graph to test and debug.

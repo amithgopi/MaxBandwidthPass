@@ -4,8 +4,11 @@
 #include "graph.h"
 #include "dijkstra.h"
 #include "kruskal.h"
+#include <sys/resource.h>
 
 #define CSV_FILE_SEPERATOR ","
+
+//These can be modified to change the type of graph
 #define GRAPH_NUMBER_OF_VERTICES 5000
 #define SPARSE_EDGES_PER_NODE 6
 #define DENSE_EDGES_PER_NODE 1000
@@ -18,6 +21,11 @@ void sparseGraph();
 void denseGraph();
 void testFromFile();
 
+/**
+ * @brief Main function
+ * 
+ * @return int 
+ */
 int main() {
     
     sparseGraph();
@@ -29,10 +37,21 @@ int main() {
 
 }
 
+/**
+ * @brief Runs each algorithm for the specifeid number of iterations and records execution time and BW in the specified file
+ * 
+ * @param g Graph on which to run each algorithm
+ * @param file open file stream refrence to write the run details to
+ * @param timesToExecute Nunmber of times to run
+ * @param printPath Flag to enable printing the shortest path
+ */
 void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath = false) {
     int maxBW[3];
+    struct rusage r_usage;
     for(int i=0; i<timesToExecute; i++) {
-        
+        int ret = getrusage(RUSAGE_SELF,&r_usage);
+        cout<<r_usage.ru_maxrss;
+
         Dijkstra* d;
         int s = g.getRandomNode(), t = g.getRandomNode();
         cout<<"\nIteration "<<i+1<<" from "<<s<<" to "<<t<<endl;
@@ -71,7 +90,7 @@ void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath 
         if(printPath) { k->printPath(t); cout<<endl;}
         cout<<"Kruskal - Time taken: "<<elapsed.count()<<endl;
         file<<elapsed.count()<<CSV_FILE_SEPERATOR;
-        maxBW[2] = d->getMaxBW();
+        maxBW[2] = k->getMaxBW();
         delete k;
 
         if(maxBW[0] == maxBW[1] && maxBW[1] == maxBW[2]) {
@@ -85,6 +104,10 @@ void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath 
     }
 }
 
+/**
+ * @brief Generate and run program for sparse graph based on defined parameters
+ * 
+ */
 void sparseGraph() {
     cout<<"\n----STARTING RUN ON SPARSE GRAPH----"<<endl;
     ofstream file;
@@ -95,17 +118,24 @@ void sparseGraph() {
     file.close();
 }
 
+/**
+ * @brief  Generate and run program for dense graph based on defined parameters
+ * 
+ */
 void denseGraph() {
     cout<<"\n----STARTING RUN ON DENSE GRAPH----"<<endl;
     ofstream file;
     file.open("dense.csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, DENSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
-    cout<<"Avg edge count = "<<g.getAverageEdgeCount()<<endl;
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
     runAlgorithms(g, file, ITERATIONS_PER_GRAPH);
     file.close();  
 }
 
+/**
+ * @brief Used for testing and debugging - loads grapgh from the file dump
+ * 
+ */
 void testFromFile() {
     Graph g("g.txt");
     Dijkstra* d = new Dijkstra();

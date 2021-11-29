@@ -4,6 +4,10 @@
 
 using namespace std;
 
+/**
+ * @brief Class to hold the implmentatin fo Dijkstra's algorithm and any variables and members required for its operation
+ * 
+ */
  class Dijkstra {
     public:
 

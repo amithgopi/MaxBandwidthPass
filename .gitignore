@@ -5,3 +5,5 @@ g*.txt
 *.csv
 *.txt
 report/
+*.out
+*.out*
