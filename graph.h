@@ -11,6 +11,10 @@
 
 using namespace std;
 
+/**
+ * @brief This class holds either a vertex - or an edge (with parent id) and its weight
+ * 
+ */
 class Node {
     public:
         int id;
@@ -43,6 +47,11 @@ class Graph {
             initEmptyGraph(_num_nodes);
         }
 
+        /**
+         * @brief Initialize the members of this calss based on the number of nodes
+         * 
+         * @param numNodes 
+         */
         void initEmptyGraph(int numNodes) {
             num_nodes = numNodes;
             total_edge_count = 0;
@@ -73,13 +82,13 @@ class Graph {
             random_device rd;
             mt19937 gen(rd());
             generator = gen;
+            //Set boundarites for each uniform distribution
             uniform_int_distribution<int> distributeEdgeNumbers(1, egdes_per_node - 1);
             uniform_int_distribution<int> distributeEdgeWeight(1, maxBWValue);
             uniform_int_distribution<int> distributeEdgeNode(0, num_nodes-1);
 
             distributeNodes = distributeEdgeNode;
-            //Allocate adj list space as array of pointers to node
-
+           
             for(int i=0; i<num_nodes; i++) {
                
                 int numEdges = distributeEdgeNumbers(gen);

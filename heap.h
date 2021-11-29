@@ -3,6 +3,10 @@
 #include<iostream>
 #include "graph.h"
 
+#define parent(i) (i-1)>>1
+#define left(i) ((i<<1) + 1)
+#define right(i) ((i<<1) + 2)
+
 using namespace std;
 
 /**
@@ -22,6 +26,11 @@ class Heap {
         virtual void heapify(int i) = 0;
         virtual int getHeapNodeValue(int i) = 0;
 
+        Heap(Graph &G) {
+            graph = &G;
+            size = 0;
+        }
+
         /**
          * @brief Swap two entries in the heap
          * 
@@ -32,11 +41,6 @@ class Heap {
             T temp = *a;
             *a = *b;
             *b = temp;
-        }
-
-        Heap(Graph &G) {
-            graph = &G;
-            size = 0;
         }
 
         /**

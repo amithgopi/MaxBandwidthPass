@@ -6,9 +6,6 @@
 #include "heap.h"
 using namespace std;
 
-#define parent(i) (i-1)>>1
-#define left(i) ((i<<1) + 1)
-#define right(i) ((i<<1) + 2)
 
 class MaxHeap: public Heap<int> {
 
@@ -72,9 +69,9 @@ class MaxHeap: public Heap<int> {
                 cout<<"Cannot insert new element. Capacity full.\n";
                 return;
             }
-            //For existing nodes, add it to same position and heapify
+            //For existing nodes, add it to same position and fix heap at that posistion
             if(position[node] != -1){
-                heapify(position[node]);
+                fixHeap(position[node]);
                 return;
             }
 
@@ -82,7 +79,16 @@ class MaxHeap: public Heap<int> {
             position[node] = size;
             size++;
 
-            int pos = size - 1;
+            heapifyUp(size - 1);
+
+        }
+
+        /**
+         * @brief Heapify an element up the heap
+         * 
+         * @param pos 
+         */
+        void heapifyUp(int pos) {
             while (pos != 0 && bw[arr[parent(pos)]] < bw[arr[pos]]) //Use BW array for comparison
             {
                 swap(&position[arr[pos]], &position[arr[parent(pos)]]);
@@ -92,30 +98,56 @@ class MaxHeap: public Heap<int> {
             }
         }
 
-        void remove(int i) {
-            // printHeap(0);
-            if(i>size-1 || size == 0) {
-                cout<<"Cannot delete. i = "<<i<<" node = "<<position[arr[i]]<<", size = "<<size<<endl;
-                return;
-            }
-
-            size--;
-            
-            position[arr[i]] = -1;  
-            if(i != size) position[arr[size]] = i;  //handle edge case when node to delete is the last node
-
-            arr[i] = arr[size]; 
-            arr[size] = -1;
-            
-            for (int i=(size/2)-1; i>=0; i--) {
-                heapify(i);
+        /**
+         * @brief fixes the heap at the specified position
+         * 
+         * @param pos 
+         */
+        void fixHeap(int pos) {
+            if(pos == 0 || bw[arr[parent(pos)]] > bw[arr[pos]]) {
+                heapify(pos);
+            } else {
+                heapifyUp(pos);
             }
         }
 
+        /**
+         * @brief Removes an element from the heap at the specified posistion/index
+         * 
+         * @param index 
+         */
+        void remove(int index) {
+            if(index>size-1 || size == 0) {
+                cout<<"Cannot delete. i = "<<index<<" node = "<<position[arr[index]]<<", size = "<<size<<endl;
+                return;
+            }
+            size--; //Reduce size of heap
+            
+            position[arr[index]] = -1;  //Set posistion of element to be removed as -1
+            if(index != size) position[arr[size]] = index;  //handle edge case when node to delete is the last node
+
+            arr[index] = arr[size]; //Replace element with right most leaf (last in heap array) 
+            arr[size] = -1;     //Change last replaecd elemetn (not at the end of the array) to -1
+
+            fixHeap(index);         //Fix the heap at the deleted location
+            
+        }
+
+        /**
+         * @brief Delete a given node/vertex id from the heap
+         * 
+         * @param node 
+         */
         void deleteNode(int node) {
             remove(position[node]);
         }
 
+        /**
+         * @brief Get the BW of the node with the given id
+         * 
+         * @param i 
+         * @return int BW of ith node
+         */
         inline int getHeapNodeValue(int i) {
             return bw[arr[i]];
         }
