@@ -7,6 +7,7 @@ To compile from inside the project directory run:
     
 To execute the program, from the same directory, run:
     ./main
+Or alternatively on linux (Ubuntu) distributions, run the main.o executable bundled with the code
 
 To change any of these, update the main file, recompile and execute.
 

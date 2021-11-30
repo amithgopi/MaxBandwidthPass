@@ -7,3 +7,4 @@ g*.txt
 report/
 *.out
 *.out*
+!main.o
