@@ -10,7 +10,7 @@ To execute the program, from the same directory, run:
 
 To change any of these, update the main file, recompile and execute.
 
-The code produces, two .csv files - sparse.csv and dense.csv - as the output. These contain the results on a single run split based on the type of input graph used. The csv file has the following columns:
+The code produces, two sets .csv files - sparse<iteration-number>.csv and dense<iteration-number>.csv - as the output. These contain the results on a single run split based on the type of input graph used. The csv file has the following columns:
 | run | start | end | time_dijkstra | time_dijkstra_heap | time_kruskal | max_bandwidth |
 |--|--|--|--|--|--|--|
 All the time entries are reported in microseconds.
