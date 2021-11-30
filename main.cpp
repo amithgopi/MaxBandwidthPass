@@ -13,12 +13,12 @@
 #define SPARSE_EDGES_PER_NODE 6
 #define DENSE_EDGES_PER_NODE 1000
 #define MAX_POSSIBLE_BW_VALUE 10000
-#define ITERATIONS_PER_GRAPH 5
+#define NUMBER_OF_ITERATIONS 5
 
 using namespace std;
 
-void sparseGraph();
-void denseGraph();
+void sparseGraph(int i);
+void denseGraph(int i);
 void testFromFile();
 
 /**
@@ -28,8 +28,10 @@ void testFromFile();
  */
 int main() {
     
-    sparseGraph();
-    denseGraph();
+    for(int i=0; i<NUMBER_OF_ITERATIONS; i++) {
+        sparseGraph(i);
+        denseGraph(i);
+    }
 
     // testFromFile();
     
@@ -108,13 +110,13 @@ void runAlgorithms(Graph &g, ofstream &file, int timesToExecute, bool printPath 
  * @brief Generate and run program for sparse graph based on defined parameters
  * 
  */
-void sparseGraph() {
+void sparseGraph(int i = 1) {
     cout<<"\n----STARTING RUN ON SPARSE GRAPH----"<<endl;
     ofstream file;
-    file.open("sparse.csv");
+    file.open("sparse" + to_string(i) + ".csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, SPARSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
-    runAlgorithms(g, file, ITERATIONS_PER_GRAPH);  
+    runAlgorithms(g, file, NUMBER_OF_ITERATIONS);  
     file.close();
 }
 
@@ -122,13 +124,13 @@ void sparseGraph() {
  * @brief  Generate and run program for dense graph based on defined parameters
  * 
  */
-void denseGraph() {
+void denseGraph(int i = 1) {
     cout<<"\n----STARTING RUN ON DENSE GRAPH----"<<endl;
     ofstream file;
-    file.open("dense.csv");
+    file.open("dense" + to_string(i) + ".csv");
     Graph g(GRAPH_NUMBER_OF_VERTICES, DENSE_EDGES_PER_NODE, MAX_POSSIBLE_BW_VALUE);
     file<<"run,start,end,time_dijkstra,time_dijkstra_heap,time_kruskal,max_bandwidth\n";
-    runAlgorithms(g, file, ITERATIONS_PER_GRAPH);
+    runAlgorithms(g, file, NUMBER_OF_ITERATIONS);
     file.close();  
 }
 
